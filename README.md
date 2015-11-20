@@ -10,7 +10,28 @@ This is a Vagrantfile for running a testing setup for [nDPI](https://github.com/
 - cd to the cloned directory
 - Type in ``vagrant up`` to your terminal window
 
+##Usage
+
+Generate sample capture:
+
+```
+# start capture
+screen -d -m -S pcap-sample sudo tcpdump -ni eth0 -s0 -w /tmp/capture.pcap -v
+# Do some stuff here that will be captured, e.g.:
+apt-get update
+wget http://www.google.com
+sleep 5
+# stop capture
+PROCESS=$(screen -ls |grep pcap-sample)
+kill $(echo $PROCESS |cut -f1 -d'.')
+```
+
+Analyse sample capture:
+
+```example/ndpiReader -i /tmp/capture.pcap -s 20```
+
 ##The headlines
+
 <table>
 <tr><th>IP Address</th><td>192.168.22.11</td></tr>
 <tr><th>SSH</th><td>vagrant ssh</td></tr>
